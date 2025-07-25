@@ -6,23 +6,40 @@
   <title>Delivery Gate Pass - Royal Automobiles</title>
   <style>
     @page {
-      size: 4.135in 5.845in;
-      margin: 0.5in;
-    }
+  size: A4;
+  margin: 1in;
+}
     :root {
       --primary-color: #0033A0;
       --accent-color: #f2f6ff;
     }
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: var(--accent-color);
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
       color: var(--primary-color);
       margin: 0;
       padding: 0;
     }
     .container {
       width: 100%;
-      max-width: 4.135in;
+      @media print {
+  .btn-print { display: none; }
+  body {
+    margin: 0;
+    padding: 0;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .container {
       height: 5.845in;
       margin: 20px auto;
       background-color: #fff;
