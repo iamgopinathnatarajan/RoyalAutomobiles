@@ -7,38 +7,43 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f9f9f9;
+      background-color: #ffffff;
       margin: 0;
+      padding: 0;
       color: #0033A0;
     }
     header {
       background-color: #0033A0;
       color: white;
       text-align: center;
-      padding: 20px;
+      padding: 20px 10px;
     }
     .container {
-      max-width: 900px;
+      max-width: 800px;
       margin: 30px auto;
       background: white;
-      padding: 30px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 40px 30px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      page-break-after: always;
     }
     h2 {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
+      color: #002060;
     }
     label {
-      display: block;
       font-weight: bold;
-      margin-top: 15px;
+      margin-top: 12px;
+      display: inline-block;
     }
     input, textarea {
       width: 100%;
-      padding: 10px;
+      padding: 8px;
       margin-top: 5px;
+      margin-bottom: 10px;
       border: 1px solid #ccc;
       border-radius: 4px;
+      font-size: 14px;
     }
     .row {
       display: flex;
@@ -50,48 +55,57 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 20px;
+      margin-top: 15px;
+      font-size: 13px;
     }
     th, td {
-      border: 1px solid #0033A0;
-      padding: 10px;
+      border: 1px solid #ccc;
+      padding: 8px;
       text-align: center;
-    }
-    .actions, .controls {
-      text-align: right;
-      margin-top: 10px;
-    }
-    .controls button {
-      background: #0033A0;
-      color: white;
-      padding: 10px 20px;
-      margin-left: 10px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .controls button:hover {
-      background-color: #002060;
     }
     .totals {
       margin-top: 20px;
       text-align: right;
     }
+    .totals input {
+      width: 120px;
+    }
     .in-words {
       font-style: italic;
       margin-top: 10px;
+      font-size: 14px;
     }
     .footer {
-      margin-top: 30px;
-      font-size: 14px;
+      font-size: 13px;
+      margin-top: 25px;
     }
     .signature {
       text-align: right;
-      margin-top: 50px;
+      margin-top: 40px;
+    }
+    .controls {
+      text-align: center;
+      margin: 20px auto;
+    }
+    .controls button {
+      background: #0033A0;
+      color: white;
+      padding: 10px 16px;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .controls button:hover {
+      background-color: #001f5f;
     }
     @media print {
       .controls { display: none; }
-      input, textarea, button { border: none; outline: none; }
+      body, .container {
+        margin: 0;
+        box-shadow: none;
+        width: 100%;
+      }
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
@@ -154,7 +168,7 @@
       </tbody>
     </table>
 
-    <div class="actions">
+    <div class="controls">
       <button onclick="addRow()">+ Add Row</button>
     </div>
 
@@ -164,14 +178,14 @@
     </div>
 
     <div class="in-words">
-      <label>Total Amount in Words:</label>
+      <label>Total in Words:</label>
       <textarea id="amountWords" readonly></textarea>
     </div>
 
     <div class="footer">
-      <h3>Current Account Details</h3>
-      <p><strong>Name:</strong> Royal Automobiles</p>
-      <p><strong>A/c No:</strong> 2988201000153</p>
+      <h3>Bank Account Details</h3>
+      <p><strong>Account Name:</strong> Royal Automobiles</p>
+      <p><strong>Account No:</strong> 2988201000153</p>
       <p><strong>Bank:</strong> Canara Bank</p>
       <p><strong>Branch:</strong> PSG Arts & Science College</p>
       <p><strong>IFSC Code:</strong> CNRB0002988</p>
