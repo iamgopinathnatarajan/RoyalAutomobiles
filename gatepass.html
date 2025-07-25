@@ -6,80 +6,64 @@
   <title>Delivery Gate Pass - Royal Automobiles</title>
   <style>
     @page {
-  size: A4;
-  margin: 1in;
-}
+      size: A4 portrait;
+      margin: 0;
+    }
     :root {
       --primary-color: #0033A0;
       --accent-color: #f2f6ff;
     }
     body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: var(--accent-color);
-  color: var(--primary-color);
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--accent-color);
       color: var(--primary-color);
       margin: 0;
       padding: 0;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      height: 100vh;
     }
     .container {
-      width: 100%;
-      @media print {
-  .btn-print { display: none; }
-  body {
-    margin: 0;
-    padding: 0;
-    background: white;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-  }
-  .container {
-      height: 5.845in;
-      margin: 20px auto;
+      width: 595px; /* A4 width */
+      height: 420px; /* Half A4 height */
       background-color: #fff;
+      margin: 40px auto;
+      padding: 20px 30px;
+      box-sizing: border-box;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       border-radius: 12px;
-      padding: 20px;
-      box-sizing: border-box;
     }
     header {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
     header h1 {
       margin: 0;
-      font-size: 1.4rem;
-      color: var(--primary-color);
+      font-size: 1.5rem;
     }
     header p {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: #555;
     }
     h2 {
       text-align: center;
-      margin-bottom: 10px;
       font-size: 1.2rem;
-      color: var(--primary-color);
+      margin: 0 0 15px 0;
     }
     label {
-      font-weight: bold;
-      margin-top: 12px;
       display: block;
+      margin-top: 10px;
       font-size: 0.85rem;
+      font-weight: 600;
     }
     input, textarea {
       width: 100%;
       padding: 6px;
-      margin-top: 4px;
+      font-size: 0.85rem;
       border: 1px solid #ccc;
       border-radius: 4px;
-      font-size: 0.85rem;
+      margin-top: 4px;
     }
     .row {
       display: flex;
@@ -94,15 +78,15 @@
       font-size: 0.85rem;
     }
     .btn-print {
+      display: block;
+      margin: 25px auto 0;
+      padding: 10px 20px;
       background-color: var(--primary-color);
-      color: white;
-      padding: 10px 16px;
+      color: #fff;
       border: none;
-      border-radius: 6px;
+      border-radius: 5px;
       font-size: 14px;
       cursor: pointer;
-      display: block;
-      margin: 20px auto 0;
     }
     .btn-print:hover {
       background-color: #001f60;
@@ -110,19 +94,28 @@
     @media print {
       .btn-print { display: none; }
       body {
-        background: white;
         margin: 0;
         padding: 0;
+        background-color: white;
+        justify-content: center;
       }
       .container {
         box-shadow: none;
+        margin: 0;
         border-radius: 0;
       }
     }
-  </style>
+  
+    hr.dashed {
+      border: none;
+      border-top: 2px dashed #999;
+      margin: 20px 0;
+    }
+$1
 </head>
 <body>
-  <div class="container">
+  <hr class="dashed">
+$1
     <header>
       <h1>Royal Automobiles</h1>
       <p>Mak India Mill Road, Goldwins, Coimbatore - 641014<br>9843224057 | royalautomobiles@outlook.com</p>
@@ -154,7 +147,7 @@
     <input type="text">
 
     <label>Items Description</label>
-    <textarea rows="3" placeholder="List items being delivered..."></textarea>
+    <textarea rows="2" placeholder="List items being delivered..."></textarea>
 
     <label>Authorized By</label>
     <input type="text">
