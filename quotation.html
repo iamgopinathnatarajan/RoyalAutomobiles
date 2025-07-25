@@ -1,87 +1,257 @@
-<!-- existing code unchanged up to table section -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quotation - Royal Automobiles</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      color: #0033A0;
+    }
+    header {
+      background-color: #0033A0;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .row {
+      display: flex;
+      gap: 20px;
+    }
+    .row > div {
+      flex: 1;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #0033A0;
+      padding: 10px;
+      text-align: center;
+    }
+    .actions, .controls {
+      text-align: right;
+      margin-top: 10px;
+    }
+    .controls button {
+      background: #0033A0;
+      color: white;
+      padding: 10px 20px;
+      margin-left: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .controls button:hover {
+      background-color: #002060;
+    }
+    .totals {
+      margin-top: 20px;
+      text-align: right;
+    }
+    .in-words {
+      font-style: italic;
+      margin-top: 10px;
+    }
+    .footer {
+      margin-top: 30px;
+      font-size: 14px;
+    }
+    .signature {
+      text-align: right;
+      margin-top: 50px;
+    }
+    @media print {
+      .controls { display: none; }
+      input, textarea, button { border: none; outline: none; }
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Royal Automobiles</h1>
+    <p>Mak India Mill Road, Goldwins, Coimbatore - 641014<br>9843224057 | royalautomobiles@outlook.com</p>
+  </header>
+  <div class="container" id="quotation">
+    <h2>Quotation</h2>
 
-<table id="quotation-table">
-  <thead>
-    <tr>
-      <th>S.No.</th>
-      <th>Item & Description</th>
-      <th>Qty</th>
-      <th>Rate</th>
-      <th>Amount</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td><input type="text"></td>
-      <td><input type="number" class="qty" oninput="calculateTotal()"></td>
-      <td><input type="number" class="rate" oninput="calculateTotal()"></td>
-      <td><input type="number" class="amount" readonly></td>
-      <td><button type="button" onclick="removeRow(this)" style="background:red;color:white;border:none;padding:4px 10px;border-radius:4px;cursor:pointer">🗑</button></td>
-    </tr>
-  </tbody>
-</table>
-<div style="text-align:right; margin: 10px 0;">
-  <button type="button" onclick="addRow()" style="background:#0033A0;color:white;padding:8px 16px;border:none;border-radius:4px;cursor:pointer">+ Add Row</button>
-</div>
-<div style="text-align:right; margin: 10px 0;">
-  <button type="button" onclick="downloadPDF()" style="background:#28a745;color:white;padding:8px 16px;border:none;border-radius:4px;cursor:pointer">⬇ Save as PDF</button>
-</div>
+    <label>Client Name</label>
+    <input type="text">
 
-<!-- continue with totals and rest of the document -->
+    <label>Company Name <span style="color:red">*</span></label>
+    <input type="text" required>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
-<script>
-function calculateTotal() {
-  const rows = document.querySelectorAll('#quotation-table tbody tr');
-  let total = 0;
-  rows.forEach((row, index) => {
-    row.querySelector('td').innerText = index + 1; // update serial number
-    const qty = parseFloat(row.querySelector('.qty').value) || 0;
-    const rate = parseFloat(row.querySelector('.rate').value) || 0;
-    const amount = qty * rate;
-    row.querySelector('.amount').value = amount.toFixed(2);
-    total += amount;
-  });
-  const discount = parseFloat(document.getElementById('discount').value) || 0;
-  const finalTotal = total - discount;
-  document.getElementById('total').value = finalTotal.toFixed(2);
-  document.getElementById('amountWords').value = convertNumberToWords(finalTotal);
-}
+    <label>Company Address <span style="color:red">*</span></label>
+    <textarea required></textarea>
 
-function addRow() {
-  const table = document.querySelector('#quotation-table tbody');
-  const row = document.createElement('tr');
-  row.innerHTML = `
-    <td></td>
-    <td><input type="text"></td>
-    <td><input type="number" class="qty" oninput="calculateTotal()"></td>
-    <td><input type="number" class="rate" oninput="calculateTotal()"></td>
-    <td><input type="number" class="amount" readonly></td>
-    <td><button type="button" onclick="removeRow(this)" style="background:red;color:white;border:none;padding:4px 10px;border-radius:4px;cursor:pointer">🗑</button></td>
-  `;
-  table.appendChild(row);
-  calculateTotal();
-}
+    <div class="row">
+      <div>
+        <label>Company GST</label>
+        <input type="text">
+      </div>
+      <div>
+        <label>Quotation Number</label>
+        <input type="text">
+      </div>
+      <div>
+        <label>Quotation Expiry Date</label>
+        <input type="date">
+      </div>
+    </div>
 
-function removeRow(button) {
-  const row = button.closest('tr');
-  row.remove();
-  calculateTotal();
-}
+    <label>Project Details</label>
+    <textarea></textarea>
 
-function downloadPDF() {
-  const element = document.querySelector(".container");
-  const opt = {
-    margin:       0.5,
-    filename:     'Quotation-RoyalAutomobiles.pdf',
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2 },
-    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-  };
-  html2pdf().set(opt).from(element).save();
-}
-</script>
+    <table id="quotation-table">
+      <thead>
+        <tr>
+          <th>S.No.</th>
+          <th>Item & Description</th>
+          <th>Qty</th>
+          <th>Rate</th>
+          <th>Amount</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><input type="text"></td>
+          <td><input type="number" class="qty" oninput="calculateTotal()"></td>
+          <td><input type="number" class="rate" oninput="calculateTotal()"></td>
+          <td><input type="number" class="amount" readonly></td>
+          <td><button type="button" onclick="removeRow(this)">🗑</button></td>
+        </tr>
+      </tbody>
+    </table>
 
-<!-- existing convertNumberToWords() function remains the same -->
+    <div class="actions">
+      <button onclick="addRow()">+ Add Row</button>
+    </div>
+
+    <div class="totals">
+      <label>Total Amount: ₹ <input type="number" id="total" readonly></label><br>
+      <label>Discount: ₹ <input type="number" id="discount" value="0" oninput="calculateTotal()"></label>
+    </div>
+
+    <div class="in-words">
+      <label>Total Amount in Words:</label>
+      <textarea id="amountWords" readonly></textarea>
+    </div>
+
+    <div class="footer">
+      <h3>Current Account Details</h3>
+      <p><strong>Name:</strong> Royal Automobiles</p>
+      <p><strong>A/c No:</strong> 2988201000153</p>
+      <p><strong>Bank:</strong> Canara Bank</p>
+      <p><strong>Branch:</strong> PSG Arts & Science College</p>
+      <p><strong>IFSC Code:</strong> CNRB0002988</p>
+    </div>
+
+    <div class="signature">
+      <p><strong>Authorized Signature</strong></p>
+      <p>_________________________</p>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button onclick="window.print()">🖨️ Print</button>
+    <button onclick="downloadPDF()">⬇ Save as PDF</button>
+  </div>
+
+  <script>
+    function calculateTotal() {
+      const rows = document.querySelectorAll('#quotation-table tbody tr');
+      let total = 0;
+      rows.forEach((row, index) => {
+        row.querySelector('td').innerText = index + 1;
+        const qty = parseFloat(row.querySelector('.qty').value) || 0;
+        const rate = parseFloat(row.querySelector('.rate').value) || 0;
+        const amount = qty * rate;
+        row.querySelector('.amount').value = amount.toFixed(2);
+        total += amount;
+      });
+      const discount = parseFloat(document.getElementById('discount').value) || 0;
+      const finalTotal = total - discount;
+      document.getElementById('total').value = finalTotal.toFixed(2);
+      document.getElementById('amountWords').value = convertNumberToWords(finalTotal);
+    }
+
+    function addRow() {
+      const table = document.querySelector('#quotation-table tbody');
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td></td>
+        <td><input type="text"></td>
+        <td><input type="number" class="qty" oninput="calculateTotal()"></td>
+        <td><input type="number" class="rate" oninput="calculateTotal()"></td>
+        <td><input type="number" class="amount" readonly></td>
+        <td><button type="button" onclick="removeRow(this)">🗑</button></td>
+      `;
+      table.appendChild(row);
+      calculateTotal();
+    }
+
+    function removeRow(button) {
+      const row = button.closest('tr');
+      row.remove();
+      calculateTotal();
+    }
+
+    function downloadPDF() {
+      const element = document.getElementById("quotation");
+      const opt = {
+        margin: 0.5,
+        filename: 'Quotation-RoyalAutomobiles.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(element).save();
+    }
+
+    function convertNumberToWords(amount) {
+      const ones = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+      const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+      function convert(n) {
+        if (n < 20) return ones[n];
+        if (n < 100) return tens[Math.floor(n / 10)] + (n % 10 ? " " + ones[n % 10] : "");
+        if (n < 1000) return ones[Math.floor(n / 100)] + " Hundred" + (n % 100 ? " and " + convert(n % 100) : "");
+        if (n < 100000) return convert(Math.floor(n / 1000)) + " Thousand" + (n % 1000 ? " " + convert(n % 1000) : "");
+        return "Amount too large";
+      }
+      const whole = Math.floor(amount);
+      return whole ? convert(whole) + " Only" : "Zero";
+    }
+  </script>
+</body>
+</html>
