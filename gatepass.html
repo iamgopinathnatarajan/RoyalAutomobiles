@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delivery Gate Pass</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 40px;
+      background-color: #fff;
+      color: #0033A0;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .form-section {
+      max-width: 800px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .row {
+      display: flex;
+      gap: 20px;
+    }
+    .row > div {
+      flex: 1;
+    }
+    .footer {
+      margin-top: 40px;
+      text-align: right;
+    }
+    button {
+      background-color: #0033A0;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover {
+      background-color: #001f60;
+    }
+  </style>
+</head>
+<body>
+  <h1>Royal Automobiles</h1>
+  <h2>Delivery Gate Pass</h2>
+  <div class="form-section">
+    <label>Gate Pass Number</label>
+    <input type="text" placeholder="GP-000001">
+
+    <label>Date</label>
+    <input type="date">
+
+    <label>Client Name</label>
+    <input type="text">
+
+    <label>Vehicle Number</label>
+    <input type="text">
+
+    <label>Driver Name</label>
+    <input type="text">
+
+    <label>Items Description</label>
+    <textarea rows="4" placeholder="List items being delivered..."></textarea>
+
+    <label>Authorized By</label>
+    <input type="text">
+
+    <div class="footer">
+      <p><strong>Signature</strong></p>
+      <p>_________________________</p>
+    </div>
+
+    <button onclick="window.print()">🖨️ Print Gate Pass</button>
+  </div>
+</body>
+</html>
