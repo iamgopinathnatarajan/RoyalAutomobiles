@@ -1,67 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Royal Automobiles</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Royal Automobiles - Home</title>
   <style>
     body {
+      font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #ffffff;
+      background-color: #f5f7fa;
       color: #0033A0;
-    }
-    header {
-      background-color: #0033A0;
-      color: white;
-      padding: 20px 0;
-      text-align: center;
-    }
-    .container {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 0 20px;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
     }
     h1 {
-      font-size: 2.5rem;
+      margin-bottom: 20px;
     }
-    p {
-      font-size: 1.2rem;
-      margin-top: 20px;
+    .button-group {
+      display: flex;
+      gap: 20px;
     }
-    .button {
-      margin-top: 30px;
+    a {
+      text-decoration: none;
     }
-    .btn {
+    button {
       background-color: #0033A0;
       color: white;
-      padding: 12px 25px;
-      margin: 10px;
-      text-decoration: none;
-      font-weight: bold;
+      padding: 12px 24px;
+      border: none;
       border-radius: 5px;
-      display: inline-block;
+      font-size: 16px;
+      cursor: pointer;
     }
-    .btn:hover {
-      background-color: #002070;
+    button:hover {
+      background-color: #001f60;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Royal Automobiles</h1>
-  </header>
-
-  <div class="container">
-    <h2>Quotation & Invoice Generator</h2>
-    <p>Write Quotation & Invoice to Client and Create Client Database</p>
-
-    <div class="button">
-      <a href="quotation.html" class="btn">Create Quotation</a>
-      <a href="invoice.html" class="btn">Generate Invoice</a>
-      <a href="#" class="btn">Client Database</a>
-    </div>
+  <h1>Royal Automobiles</h1>
+  <div class="button-group">
+    <a href="quotation.html"><button>📄 Create Quotation</button></a>
+    <a href="invoice.html"><button>🧾 Create Invoice</button></a>
   </div>
 </body>
 </html>
