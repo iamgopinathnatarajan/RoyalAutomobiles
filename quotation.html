@@ -10,26 +10,135 @@
       font-family: Arial, sans-serif;
       background-color: #f8f8f8;
       color: #0033A0;
-      text-align: center;
     }
     header {
       background-color: #0033A0;
       color: white;
       padding: 20px;
+      text-align: center;
     }
-    iframe {
-      width: 90%;
-      height: 90vh;
-      border: none;
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    label {
+      font-weight: bold;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
       margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid #0033A0;
+    }
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+    .totals {
+      margin-top: 20px;
+      text-align: right;
+    }
+    .in-words {
+      text-align: left;
+      margin-top: 10px;
+      font-style: italic;
+    }
+    .bank-details, .signature {
+      margin-top: 30px;
+    }
+    .bank-details p, .signature p {
+      margin: 5px 0;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Quotation View</h1>
+    <h1>Quotation Generator</h1>
   </header>
+  <div class="container">
+    <form>
+      <label>Client Name:</label>
+      <input type="text" name="clientName" />
 
-  <iframe src="QT-000001%2021Jun25.pdf"></iframe>
+      <label>Company Name: <span style="color:red">*</span></label>
+      <input type="text" name="companyName" required />
+
+      <label>Company Address: <span style="color:red">*</span></label>
+      <textarea name="companyAddress" required></textarea>
+
+      <label>Company GST:</label>
+      <input type="text" name="gst" />
+
+      <label>Quotation Number:</label>
+      <input type="text" name="quotationNumber" />
+
+      <label>Quotation Expiry Date:</label>
+      <input type="date" name="expiryDate" />
+
+      <label>Project Details:</label>
+      <textarea name="projectDetails"></textarea>
+
+      <table>
+        <thead>
+          <tr>
+            <th>S.No.</th>
+            <th>Items</th>
+            <th>Qty</th>
+            <th>Rate</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><input type="text" /></td>
+            <td><input type="number" /></td>
+            <td><input type="number" /></td>
+            <td><input type="number" /></td>
+          </tr>
+          <!-- More rows can be added dynamically -->
+        </tbody>
+      </table>
+
+      <div class="totals">
+        <label>Total Amount:</label>
+        <input type="number" name="totalAmount" />
+
+        <label>Discount:</label>
+        <input type="number" name="discount" />
+      </div>
+
+      <div class="in-words">
+        <label>Total Amount in Words:</label>
+        <textarea name="amountWords"></textarea>
+      </div>
+
+      <div class="bank-details">
+        <h3>Current Account Details</h3>
+        <p><strong>Name:</strong> Royal Automobiles</p>
+        <p><strong>A/c No:</strong> 2988201000153</p>
+        <p><strong>Bank:</strong> Canara Bank</p>
+        <p><strong>Branch:</strong> PSG Arts & Science College</p>
+        <p><strong>IFSC Code:</strong> CNRB0002988</p>
+      </div>
+
+      <div class="signature">
+        <p><strong>Authorized Signature</strong></p>
+        <p>_________________________</p>
+      </div>
+    </form>
+  </div>
 </body>
 </html>
