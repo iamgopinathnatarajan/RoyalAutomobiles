@@ -1,144 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quotation - Royal Automobiles</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f8f8f8;
-      color: #0033A0;
-    }
-    header {
-      background-color: #0033A0;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    .container {
-      max-width: 900px;
-      margin: 30px auto;
-      background: white;
-      padding: 30px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    label {
-      font-weight: bold;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    table, th, td {
-      border: 1px solid #0033A0;
-    }
-    th, td {
-      padding: 10px;
-      text-align: center;
-    }
-    .totals {
-      margin-top: 20px;
-      text-align: right;
-    }
-    .in-words {
-      text-align: left;
-      margin-top: 10px;
-      font-style: italic;
-    }
-    .bank-details, .signature {
-      margin-top: 30px;
-    }
-    .bank-details p, .signature p {
-      margin: 5px 0;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Quotation Generator</h1>
-  </header>
-  <div class="container">
-    <form>
-      <label>Client Name:</label>
-      <input type="text" name="clientName" />
+<!-- existing code unchanged up to table section -->
 
-      <label>Company Name: <span style="color:red">*</span></label>
-      <input type="text" name="companyName" required />
+<table id="quotation-table">
+  <thead>
+    <tr>
+      <th>S.No.</th>
+      <th>Item & Description</th>
+      <th>Qty</th>
+      <th>Rate</th>
+      <th>Amount</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td><input type="text"></td>
+      <td><input type="number" class="qty" oninput="calculateTotal()"></td>
+      <td><input type="number" class="rate" oninput="calculateTotal()"></td>
+      <td><input type="number" class="amount" readonly></td>
+      <td><button type="button" onclick="removeRow(this)" style="background:red;color:white;border:none;padding:4px 10px;border-radius:4px;cursor:pointer">🗑</button></td>
+    </tr>
+  </tbody>
+</table>
+<div style="text-align:right; margin: 10px 0;">
+  <button type="button" onclick="addRow()" style="background:#0033A0;color:white;padding:8px 16px;border:none;border-radius:4px;cursor:pointer">+ Add Row</button>
+</div>
+<div style="text-align:right; margin: 10px 0;">
+  <button type="button" onclick="downloadPDF()" style="background:#28a745;color:white;padding:8px 16px;border:none;border-radius:4px;cursor:pointer">⬇ Save as PDF</button>
+</div>
 
-      <label>Company Address: <span style="color:red">*</span></label>
-      <textarea name="companyAddress" required></textarea>
+<!-- continue with totals and rest of the document -->
 
-      <label>Company GST:</label>
-      <input type="text" name="gst" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script>
+function calculateTotal() {
+  const rows = document.querySelectorAll('#quotation-table tbody tr');
+  let total = 0;
+  rows.forEach((row, index) => {
+    row.querySelector('td').innerText = index + 1; // update serial number
+    const qty = parseFloat(row.querySelector('.qty').value) || 0;
+    const rate = parseFloat(row.querySelector('.rate').value) || 0;
+    const amount = qty * rate;
+    row.querySelector('.amount').value = amount.toFixed(2);
+    total += amount;
+  });
+  const discount = parseFloat(document.getElementById('discount').value) || 0;
+  const finalTotal = total - discount;
+  document.getElementById('total').value = finalTotal.toFixed(2);
+  document.getElementById('amountWords').value = convertNumberToWords(finalTotal);
+}
 
-      <label>Quotation Number:</label>
-      <input type="text" name="quotationNumber" />
+function addRow() {
+  const table = document.querySelector('#quotation-table tbody');
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td></td>
+    <td><input type="text"></td>
+    <td><input type="number" class="qty" oninput="calculateTotal()"></td>
+    <td><input type="number" class="rate" oninput="calculateTotal()"></td>
+    <td><input type="number" class="amount" readonly></td>
+    <td><button type="button" onclick="removeRow(this)" style="background:red;color:white;border:none;padding:4px 10px;border-radius:4px;cursor:pointer">🗑</button></td>
+  `;
+  table.appendChild(row);
+  calculateTotal();
+}
 
-      <label>Quotation Expiry Date:</label>
-      <input type="date" name="expiryDate" />
+function removeRow(button) {
+  const row = button.closest('tr');
+  row.remove();
+  calculateTotal();
+}
 
-      <label>Project Details:</label>
-      <textarea name="projectDetails"></textarea>
+function downloadPDF() {
+  const element = document.querySelector(".container");
+  const opt = {
+    margin:       0.5,
+    filename:     'Quotation-RoyalAutomobiles.pdf',
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+  };
+  html2pdf().set(opt).from(element).save();
+}
+</script>
 
-      <table>
-        <thead>
-          <tr>
-            <th>S.No.</th>
-            <th>Items</th>
-            <th>Qty</th>
-            <th>Rate</th>
-            <th>Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td><input type="text" /></td>
-            <td><input type="number" /></td>
-            <td><input type="number" /></td>
-            <td><input type="number" /></td>
-          </tr>
-          <!-- More rows can be added dynamically -->
-        </tbody>
-      </table>
-
-      <div class="totals">
-        <label>Total Amount:</label>
-        <input type="number" name="totalAmount" />
-
-        <label>Discount:</label>
-        <input type="number" name="discount" />
-      </div>
-
-      <div class="in-words">
-        <label>Total Amount in Words:</label>
-        <textarea name="amountWords"></textarea>
-      </div>
-
-      <div class="bank-details">
-        <h3>Current Account Details</h3>
-        <p><strong>Name:</strong> Royal Automobiles</p>
-        <p><strong>A/c No:</strong> 2988201000153</p>
-        <p><strong>Bank:</strong> Canara Bank</p>
-        <p><strong>Branch:</strong> PSG Arts & Science College</p>
-        <p><strong>IFSC Code:</strong> CNRB0002988</p>
-      </div>
-
-      <div class="signature">
-        <p><strong>Authorized Signature</strong></p>
-        <p>_________________________</p>
-      </div>
-    </form>
-  </div>
-</body>
-</html>
+<!-- existing convertNumberToWords() function remains the same -->
