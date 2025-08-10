@@ -1,36 +1,128 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gate Pass</title>
 <style>
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #fff;
-}
-/* Rest of your CSS here */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #fff; /* Remove any background shades */
+    }
+    .gate-pass {
+        width: 210mm; /* A5 Landscape width */
+        height: 148mm; /* A5 Landscape height */
+        padding: 10mm;
+        border: 1px solid #000;
+        box-sizing: border-box;
+    }
+    .header {
+        text-align: center;
+        border-bottom: 1px solid #000;
+        padding-bottom: 4px;
+        margin-bottom: 8px;
+    }
+    .header h1 {
+        font-size: 18px;
+        margin: 0;
+    }
+    .header p {
+        font-size: 12px;
+        margin: 2px 0;
+    }
+    .title {
+        font-weight: bold;
+        font-size: 14px;
+        margin-bottom: 8px;
+        text-align: center;
+    }
+    .row {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 5px;
+    }
+    .field {
+        flex: 1;
+    }
+    label {
+        font-size: 11px;
+        margin-bottom: 2px;
+        display: block;
+    }
+    input, textarea {
+        width: 100%;
+        padding: 2px;
+        font-size: 12px;
+        border: 1px solid #000;
+        box-sizing: border-box;
+    }
+    textarea {
+        resize: none;
+        height: 30px;
+    }
+    .footer {
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+    }
+    @media print {
+        body {
+            margin: 0;
+        }
+        .gate-pass {
+            page-break-after: always;
+        }
+    }
 </style>
 </head>
 <body>
+
 <div class="gate-pass">
-  <div class="header">
-    <h1>Gate Pass</h1>
-    <p>Company Name</p>
-  </div>
-  <div class="title">Visitor Information</div>
-  <div class="row">
-    <div class="field">
-      <label>Name:</label>
-      <input type="text" />
+    <div class="header">
+        <h1>Company Name</h1>
+        <p>Company Address, City, State, ZIP</p>
+        <p>Phone: +91-XXXXXXXXXX | Email: info@company.com</p>
     </div>
-    <div class="field">
-      <label>Date:</label>
-      <input type="date" />
+
+    <div class="title">GATE PASS</div>
+
+    <div class="row">
+        <div class="field">
+            <label for="date">Date</label>
+            <input type="text" id="date" name="date" placeholder="DD/MM/YYYY">
+        </div>
+        <div class="field">
+            <label for="passNo">Pass No</label>
+            <input type="text" id="passNo" name="passNo" placeholder="####">
+        </div>
     </div>
-  </div>
-  <!-- More form fields -->
+
+    <div class="row">
+        <div class="field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <div class="field">
+            <label for="department">Department</label>
+            <input type="text" id="department" name="department">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="field">
+            <label for="purpose">Purpose</label>
+            <textarea id="purpose" name="purpose"></textarea>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div>Signature (Authorized)</div>
+        <div>Signature (Holder)</div>
+    </div>
 </div>
+
 </body>
 </html>
