@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vehicle Gate Pass - Royal Automobiles</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gate Pass - Royal Automobiles</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -11,22 +11,19 @@
       color: #0033A0;
       margin: 0;
       padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
 
     h2 {
-      margin-bottom: 20px;
+      text-align: center;
     }
 
-    form {
+    form, .preview {
       background: white;
       padding: 30px;
+      margin: auto;
+      max-width: 600px;
       border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 600px;
     }
 
     label {
@@ -35,7 +32,7 @@
       font-weight: bold;
     }
 
-    input, select, textarea {
+    input, textarea {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
@@ -58,38 +55,95 @@
     button:hover {
       background-color: #001f60;
     }
+
+    .hidden {
+      display: none;
+    }
+
+    .preview-item {
+      margin-bottom: 10px;
+    }
+
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      .print-section, .print-section * {
+        visibility: visible;
+      }
+      .print-section {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+      }
+    }
   </style>
 </head>
 <body>
 
   <h2>🚚 Delivery Gate Pass</h2>
 
+  <!-- Form Section -->
   <form id="gatepass-form">
     <label for="customerName">Customer Name</label>
-    <input type="text" id="customerName" name="customerName" required>
+    <input type="text" id="customerName" required />
 
     <label for="vehicleNumber">Vehicle Number</label>
-    <input type="text" id="vehicleNumber" name="vehicleNumber" required>
+    <input type="text" id="vehicleNumber" required />
 
     <label for="driverName">Driver Name</label>
-    <input type="text" id="driverName" name="driverName" required>
+    <input type="text" id="driverName" required />
 
     <label for="items">Items Being Delivered</label>
-    <textarea id="items" name="items" rows="4" required></textarea>
+    <textarea id="items" rows="3" required></textarea>
 
     <label for="deliveryDate">Delivery Date</label>
-    <input type="date" id="deliveryDate" name="deliveryDate" required>
+    <input type="date" id="deliveryDate" required />
 
     <label for="deliveryTime">Delivery Time</label>
-    <input type="time" id="deliveryTime" name="deliveryTime" required>
+    <input type="time" id="deliveryTime" required />
 
     <button type="submit">Generate Gate Pass</button>
   </form>
 
+  <!-- Gate Pass Preview -->
+  <div class="preview hidden print-section" id="gatepass-preview">
+    <h2>Royal Automobiles</h2>
+    <h3>Delivery Gate Pass</h3>
+
+    <div class="preview-item"><strong>Customer Name:</strong> <span id="p-customerName"></span></div>
+    <div class="preview-item"><strong>Vehicle Number:</strong> <span id="p-vehicleNumber"></span></div>
+    <div class="preview-item"><strong>Driver Name:</strong> <span id="p-driverName"></span></div>
+    <div class="preview-item"><strong>Items:</strong> <span id="p-items"></span></div>
+    <div class="preview-item"><strong>Delivery Date:</strong> <span id="p-deliveryDate"></span></div>
+    <div class="preview-item"><strong>Delivery Time:</strong> <span id="p-deliveryTime"></span></div>
+
+    <button onclick="window.print()">🖨️ Print Gate Pass</button>
+  </div>
+
   <script>
-    document.getElementById("gatepass-form").addEventListener("submit", function (e) {
+    const form = document.getElementById('gatepass-form');
+    const preview = document.getElementById('gatepass-preview');
+
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
-      alert("Gate Pass Generated! (You can connect this to backend or print next)");
+
+      // Fill preview with form values
+      document.getElementById('p-customerName').innerText = document.getElementById('customerName').value;
+      document.getElementById('p-vehicleNumber').innerText = document.getElementById('vehicleNumber').value;
+      document.getElementById('p-driverName').innerText = document.getElementById('driverName').value;
+      document.getElementById('p-items').innerText = document.getElementById('items').value;
+      document.getElementById('p-deliveryDate').innerText = document.getElementById('deliveryDate').value;
+      document.getElementById('p-deliveryTime').innerText = document.getElementById('deliveryTime').value;
+
+      form.classList.add('hidden');
+      preview.classList.remove('hidden');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   </script>
 
