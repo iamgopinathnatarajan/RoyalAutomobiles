@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Royal Automobiles – Quotation / Invoice</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     @page {
       size: A4 portrait;
@@ -11,55 +12,66 @@
     }
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f9fafb;
+      font-family: 'Inter', Arial, sans-serif;
+      background: #f3f4f6;
+      color: #111827;
     }
     .toolbar {
       background: #fff;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid #e5e7eb;
       padding: 10px;
     }
     .toolbar form {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 12px;
       align-items: flex-end;
     }
     .toolbar label {
       font-size: 12px;
+      font-weight: 500;
       display: block;
+      margin-bottom: 2px;
     }
     .toolbar input, .toolbar textarea {
-      padding: 4px 6px;
-      font-size: 12px;
+      padding: 6px 8px;
+      font-size: 13px;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      min-width: 150px;
     }
     .toolbar button {
-      padding: 6px 12px;
+      padding: 8px 14px;
       font-size: 13px;
       cursor: pointer;
-      border: 1px solid #000;
-      border-radius: 4px;
-      background: #fff;
+      border: 1px solid #1E3A8A;
+      border-radius: 6px;
+      background: #1E3A8A;
+      color: #fff;
+      font-weight: 500;
     }
     .invoice {
       width: 210mm;
       min-height: 297mm;
       background: #fff;
-      margin: 10px auto;
+      margin: 20px auto;
       padding: 20mm;
       box-sizing: border-box;
-      border: 1px solid #000;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     }
     header {
       display: flex;
       justify-content: space-between;
-      border-bottom: 2px solid #000;
-      padding-bottom: 10px;
-      margin-bottom: 15px;
+      border-bottom: 2px solid #1E3A8A;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
     }
     header .company h1 {
       margin: 0;
-      font-size: 18pt;
+      font-size: 20pt;
+      color: #1E3A8A;
+      font-weight: 700;
     }
     header .company p {
       margin: 2px 0;
@@ -69,47 +81,75 @@
       text-align: right;
       font-size: 10pt;
     }
+    header .invoice-meta div {
+      margin: 2px 0;
+    }
     .billto, .subject {
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
     .billto h3, .subject h3 {
-      margin: 0 0 4px 0;
+      margin: 0 0 6px 0;
       font-size: 11pt;
+      color: #1E3A8A;
+      font-weight: 600;
+    }
+    .billto div, .subject div {
+      white-space: pre-line;
+      font-size: 10.5pt;
     }
     table.items {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
     table.items th, table.items td {
-      border: 1px solid #000;
-      padding: 6px;
-      font-size: 10pt;
+      border: 1px solid #d1d5db;
+      padding: 8px;
+      font-size: 10.5pt;
     }
     table.items th {
-      background: #f0f0f0;
+      background: #1E3A8A;
+      color: #fff;
       text-align: left;
     }
+    table.items td[contenteditable="true"] {
+      background: #f9fafb;
+    }
     .totals {
-      margin-top: 10px;
+      margin-top: 14px;
       text-align: right;
     }
     .totals div {
-      margin: 3px 0;
+      margin: 4px 0;
       font-size: 11pt;
     }
-    .bank, .note {
+    .totals strong {
+      color: #1E3A8A;
+    }
+    .bank {
       margin-top: 20px;
       font-size: 10pt;
+      border-left: 3px solid #1E3A8A;
+      padding-left: 10px;
+      line-height: 1.5;
     }
     .sign {
-      margin-top: 40px;
+      margin-top: 50px;
       text-align: right;
       font-size: 10pt;
+      font-weight: 600;
+    }
+    .note {
+      margin-top: 25px;
+      font-size: 9.5pt;
+      text-align: center;
+      color: #4b5563;
+      font-style: italic;
     }
     @media print {
       .toolbar { display: none; }
       body { background: #fff; }
+      .invoice { box-shadow: none; border: none; }
     }
   </style>
 </head>
@@ -125,12 +165,12 @@
         <input type="date" id="inputInvoiceDate" required />
       </div>
       <div>
-        <label>Bill To</label>
-        <input type="text" id="inputBillTo" required />
+        <label>Bill To (multi-line)</label>
+        <textarea id="inputBillTo" rows="3" required></textarea>
       </div>
       <div>
         <label>Subject</label>
-        <input type="text" id="inputSubject" required />
+        <textarea id="inputSubject" rows="2" required></textarea>
       </div>
       <button type="submit">Generate</button>
       <button type="button" onclick="window.print()">🖨 Print</button>
@@ -146,9 +186,9 @@
         <p>9843224057 | royalautomobiles@outlook.com</p>
       </div>
       <div class="invoice-meta">
-        <div>Invoice #: <span id="invoiceNo">—</span></div>
-        <div>Date: <span id="invoiceDate">—</span></div>
-        <div>Terms: Custom</div>
+        <div><strong>Invoice #:</strong> <span id="invoiceNo">—</span></div>
+        <div><strong>Date:</strong> <span id="invoiceDate">—</span></div>
+        <div><strong>Terms:</strong> Custom</div>
       </div>
     </header>
 
