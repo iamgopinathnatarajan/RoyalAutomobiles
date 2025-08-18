@@ -1,128 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gate Pass</title>
-<style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle Gate Pass - Royal Automobiles</title>
+  <style>
     body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background: #fff; /* Remove any background shades */
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f7fa;
+      color: #0033A0;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    .gate-pass {
-        width: 210mm; /* A5 Landscape width */
-        height: 148mm; /* A5 Landscape height */
-        padding: 10mm;
-        border: 1px solid #000;
-        box-sizing: border-box;
+
+    h2 {
+      margin-bottom: 20px;
     }
-    .header {
-        text-align: center;
-        border-bottom: 1px solid #000;
-        padding-bottom: 4px;
-        margin-bottom: 8px;
+
+    form {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
     }
-    .header h1 {
-        font-size: 18px;
-        margin: 0;
-    }
-    .header p {
-        font-size: 12px;
-        margin: 2px 0;
-    }
-    .title {
-        font-weight: bold;
-        font-size: 14px;
-        margin-bottom: 8px;
-        text-align: center;
-    }
-    .row {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 5px;
-    }
-    .field {
-        flex: 1;
-    }
+
     label {
-        font-size: 11px;
-        margin-bottom: 2px;
-        display: block;
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
     }
-    input, textarea {
-        width: 100%;
-        padding: 2px;
-        font-size: 12px;
-        border: 1px solid #000;
-        box-sizing: border-box;
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
     }
-    textarea {
-        resize: none;
-        height: 30px;
+
+    button {
+      margin-top: 20px;
+      background-color: #0033A0;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
     }
-    .footer {
-        margin-top: 10px;
-        display: flex;
-        justify-content: space-between;
-        font-size: 12px;
+
+    button:hover {
+      background-color: #001f60;
     }
-    @media print {
-        body {
-            margin: 0;
-        }
-        .gate-pass {
-            page-break-after: always;
-        }
-    }
-</style>
+  </style>
 </head>
 <body>
 
-<div class="gate-pass">
-    <div class="header">
-        <h1>Company Name</h1>
-        <p>Company Address, City, State, ZIP</p>
-        <p>Phone: +91-XXXXXXXXXX | Email: info@company.com</p>
-    </div>
+  <h2>🚚 Delivery Gate Pass</h2>
 
-    <div class="title">GATE PASS</div>
+  <form id="gatepass-form">
+    <label for="customerName">Customer Name</label>
+    <input type="text" id="customerName" name="customerName" required>
 
-    <div class="row">
-        <div class="field">
-            <label for="date">Date</label>
-            <input type="text" id="date" name="date" placeholder="DD/MM/YYYY">
-        </div>
-        <div class="field">
-            <label for="passNo">Pass No</label>
-            <input type="text" id="passNo" name="passNo" placeholder="####">
-        </div>
-    </div>
+    <label for="vehicleNumber">Vehicle Number</label>
+    <input type="text" id="vehicleNumber" name="vehicleNumber" required>
 
-    <div class="row">
-        <div class="field">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name">
-        </div>
-        <div class="field">
-            <label for="department">Department</label>
-            <input type="text" id="department" name="department">
-        </div>
-    </div>
+    <label for="driverName">Driver Name</label>
+    <input type="text" id="driverName" name="driverName" required>
 
-    <div class="row">
-        <div class="field">
-            <label for="purpose">Purpose</label>
-            <textarea id="purpose" name="purpose"></textarea>
-        </div>
-    </div>
+    <label for="items">Items Being Delivered</label>
+    <textarea id="items" name="items" rows="4" required></textarea>
 
-    <div class="footer">
-        <div>Signature (Authorized)</div>
-        <div>Signature (Holder)</div>
-    </div>
-</div>
+    <label for="deliveryDate">Delivery Date</label>
+    <input type="date" id="deliveryDate" name="deliveryDate" required>
+
+    <label for="deliveryTime">Delivery Time</label>
+    <input type="time" id="deliveryTime" name="deliveryTime" required>
+
+    <button type="submit">Generate Gate Pass</button>
+  </form>
+
+  <script>
+    document.getElementById("gatepass-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      alert("Gate Pass Generated! (You can connect this to backend or print next)");
+    });
+  </script>
 
 </body>
 </html>
