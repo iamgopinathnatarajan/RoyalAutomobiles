@@ -1,151 +1,300 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gate Pass - Royal Automobiles</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Royal Automobiles – Delivery Gate Pass (A5)</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f5f7fa;
-      color: #0033A0;
+    /* ---- PRINT SETUP ---- */
+    @page {
+      size: A5 landscape;
+      margin: 10mm;
+    }
+    html, body {
+      height: 100%;
+      background: #f3f4f6; /* light gray for on-screen preview */
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
       margin: 0;
-      padding: 20px;
     }
 
-    h2 {
-      text-align: center;
-    }
-
-    form, .preview {
-      background: white;
-      padding: 30px;
-      margin: auto;
-      max-width: 600px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+    /* Screen preview frame */
+    .preview-wrap {
+      min-height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 24px;
       box-sizing: border-box;
     }
 
-    button {
-      margin-top: 20px;
-      background-color: #0033A0;
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
+    /* The A5 landscape sheet */
+    .sheet {
+      width: 210mm;
+      height: 148mm;
+      background: #ffffff;
+      color: #111827;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+      box-sizing: border-box;
+      padding: 12mm;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 8mm;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+
+    /* Header */
+    .header {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 8mm;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 6mm;
+    }
+    .logo {
+      width: 18mm;
+      height: 18mm;
+      object-fit: contain;
+      border-radius: 4px;
+      border: 1px solid #e5e7eb;
+      background: #fafafa;
+    }
+    .org {
+      line-height: 1.2;
+    }
+    .org h1 {
+      margin: 0 0 2px 0;
+      font-size: 16pt;
+      letter-spacing: 0.2px;
+    }
+    .org p {
+      margin: 0;
+      font-size: 9pt;
+      color: #6b7280;
+    }
+    .doc-meta {
+      text-align: right;
+      line-height: 1.3;
+      font-size: 9pt;
+    }
+    .doc-title {
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      font-size: 11pt;
+      padding: 6px 10px;
+      border: 1px solid #111827;
+      border-radius: 6px;
+      display: inline-block;
+    }
+
+    /* Details area */
+    .details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8mm;
+    }
+    .card {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 6mm;
+    }
+    .card h3 {
+      margin: 0 0 4mm 0;
+      font-size: 11pt;
+      letter-spacing: 0.4px;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 38mm 1fr;
+      gap: 4mm;
+      align-items: baseline;
+      margin: 2.5mm 0;
+      font-size: 10pt;
+    }
+    .label {
+      color: #6b7280;
+    }
+    .value {
+      color: #111827;
+      font-weight: 600;
+    }
+
+    /* Signatures */
+    .signatures {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 6mm;
+      margin-top: 2mm;
+    }
+    .sig {
+      text-align: center;
+    }
+    .sig .line {
+      border-top: 1px dashed #9ca3af;
+      margin: 12mm 0 2mm;
+      height: 0;
+    }
+    .sig label {
+      font-size: 9pt;
+      color: #4b5563;
+    }
+
+    /* Footer note */
+    .note {
+      font-size: 9pt;
+      color: #374151;
+      background: #f9fafb;
+      border: 1px dashed #e5e7eb;
+      padding: 4mm 6mm;
+      border-radius: 6px;
+    }
+
+    /* Print button */
+    .toolbar {
+      position: fixed;
+      inset: 16px 16px auto auto;
+      display: flex;
+      gap: 8px;
+    }
+    .btn {
+      font: inherit;
+      font-size: 12px;
+      padding: 8px 12px;
+      border: 1px solid #111827;
+      border-radius: 8px;
+      background: white;
       cursor: pointer;
     }
-
-    button:hover {
-      background-color: #001f60;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .preview-item {
-      margin-bottom: 10px;
-    }
+    .btn:hover { filter: brightness(0.98); }
 
     @media print {
-      body * {
-        visibility: hidden;
-      }
-      .print-section, .print-section * {
-        visibility: visible;
-      }
-      .print-section {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        box-shadow: none;
-      }
+      body { background: white; }
+      .preview-wrap { padding: 0; }
+      .sheet { box-shadow: none; border: none; }
+      .toolbar { display: none; }
     }
   </style>
 </head>
 <body>
+  <div class="toolbar">
+    <button class="btn" onclick="window.print()">🖨️ Print</button>
+  </div>
 
-  <h2>🚚 Delivery Gate Pass</h2>
+  <div class="preview-wrap">
+    <section class="sheet" role="document" aria-label="Delivery Gate Pass">
+      <!-- Header -->
+      <header class="header">
+        <div class="brand">
+          <!-- Optional logo: replace src with your logo file path or leave empty to hide -->
+          <img id="logo" class="logo" alt="Royal Automobiles Logo" />
+          <div class="org">
+            <h1>Royal Automobiles</h1>
+            <p>Delivery Gate Pass</p>
+          </div>
+        </div>
+        <div></div>
+        <div class="doc-meta">
+          <div class="doc-title">GATE PASS</div>
+          <div id="metaDate">Date: </div>
+          <div id="metaTime">Time: </div>
+        </div>
+      </header>
 
-  <!-- Form Section -->
-  <form id="gatepass-form">
-    <label for="customerName">Customer Name</label>
-    <input type="text" id="customerName" required />
+      <!-- Details -->
+      <main class="details">
+        <section class="card" aria-labelledby="customer-heading">
+          <h3 id="customer-heading">Customer & Vehicle</h3>
+          <div class="row"><div class="label">Customer Name</div><div class="value" id="customerName">—</div></div>
+          <div class="row"><div class="label">Vehicle Number</div><div class="value" id="vehicleNumber">—</div></div>
+          <div class="row"><div class="label">Driver Name</div><div class="value" id="driverName">—</div></div>
+        </section>
+        <section class="card" aria-labelledby="delivery-heading">
+          <h3 id="delivery-heading">Delivery Details</h3>
+          <div class="row"><div class="label">Items</div><div class="value" id="items">—</div></div>
+          <div class="row"><div class="label">Delivery Date</div><div class="value" id="deliveryDate">—</div></div>
+          <div class="row"><div class="label">Delivery Time</div><div class="value" id="deliveryTime">—</div></div>
+        </section>
+      </main>
 
-    <label for="vehicleNumber">Vehicle Number</label>
-    <input type="text" id="vehicleNumber" required />
+      <!-- Signatures -->
+      <section class="signatures">
+        <div class="sig"><div class="line"></div><label>Prepared By</label></div>
+        <div class="sig"><div class="line"></div><label>Checked By</label></div>
+        <div class="sig"><div class="line"></div><label>Authorized Signatory</label></div>
+      </section>
 
-    <label for="driverName">Driver Name</label>
-    <input type="text" id="driverName" required />
-
-    <label for="items">Items Being Delivered</label>
-    <textarea id="items" rows="3" required></textarea>
-
-    <label for="deliveryDate">Delivery Date</label>
-    <input type="date" id="deliveryDate" required />
-
-    <label for="deliveryTime">Delivery Time</label>
-    <input type="time" id="deliveryTime" required />
-
-    <button type="submit">Generate Gate Pass</button>
-  </form>
-
-  <!-- Gate Pass Preview -->
-  <div class="preview hidden print-section" id="gatepass-preview">
-    <h2>Royal Automobiles</h2>
-    <h3>Delivery Gate Pass</h3>
-
-    <div class="preview-item"><strong>Customer Name:</strong> <span id="p-customerName"></span></div>
-    <div class="preview-item"><strong>Vehicle Number:</strong> <span id="p-vehicleNumber"></span></div>
-    <div class="preview-item"><strong>Driver Name:</strong> <span id="p-driverName"></span></div>
-    <div class="preview-item"><strong>Items:</strong> <span id="p-items"></span></div>
-    <div class="preview-item"><strong>Delivery Date:</strong> <span id="p-deliveryDate"></span></div>
-    <div class="preview-item"><strong>Delivery Time:</strong> <span id="p-deliveryTime"></span></div>
-
-    <button onclick="window.print()">🖨️ Print Gate Pass</button>
+      <!-- Note -->
+      <footer class="note" id="note">This pass must be produced at the security gate during delivery.</footer>
+    </section>
   </div>
 
   <script>
-    const form = document.getElementById('gatepass-form');
-    const preview = document.getElementById('gatepass-preview');
+    // --- Utility: read URL params ---
+    const params = new URLSearchParams(location.search);
+    const get = (k, d='') => (params.get(k) ?? d).trim();
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
+    // --- Fill data with either URL params or defaults ---
+    const data = {
+      logo: get('logo', ''), // absolute or relative URL. Leave empty to hide logo
+      customerName: get('customer', 'Gopinath N'),
+      vehicleNumber: get('vehicle', 'TN41AT6816'),
+      driverName: get('driver', 'Gopinath N'),
+      items: get('items', 'Vehicle Delivery'),
+      deliveryDate: get('dDate', '18-Aug-2025'),
+      deliveryTime: get('dTime', '17:30'),
+      metaDate: get('date', ''),
+      metaTime: get('time', ''),
+      note: get('note', 'This pass must be produced at the security gate during delivery.')
+    };
 
-      // Fill preview with form values
-      document.getElementById('p-customerName').innerText = document.getElementById('customerName').value;
-      document.getElementById('p-vehicleNumber').innerText = document.getElementById('vehicleNumber').value;
-      document.getElementById('p-driverName').innerText = document.getElementById('driverName').value;
-      document.getElementById('p-items').innerText = document.getElementById('items').value;
-      document.getElementById('p-deliveryDate').innerText = document.getElementById('deliveryDate').value;
-      document.getElementById('p-deliveryTime').innerText = document.getElementById('deliveryTime').value;
+    // Format today as DD-MMM-YYYY if meta date not supplied
+    function formatToday() {
+      const d = new Date();
+      const day = String(d.getDate()).padStart(2, '0');
+      const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const mon = monthNames[d.getMonth()];
+      const year = d.getFullYear();
+      return `${day}-${mon}-${year}`;
+    }
 
-      form.classList.add('hidden');
-      preview.classList.remove('hidden');
+    // Place values
+    function setText(id, value){
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
 
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    setText('customerName', data.customerName);
+    setText('vehicleNumber', data.vehicleNumber);
+    setText('driverName', data.driverName);
+    setText('items', data.items);
+    setText('deliveryDate', data.deliveryDate);
+    setText('deliveryTime', data.deliveryTime);
+    setText('note', data.note);
+
+    // Meta date/time (top-right)
+    setText('metaDate', 'Date: ' + (data.metaDate || formatToday()));
+    // If not provided, use current time HH:MM (24h)
+    function nowHM(){
+      const d = new Date();
+      const hh = String(d.getHours()).padStart(2,'0');
+      const mm = String(d.getMinutes()).padStart(2,'0');
+      return `${hh}:${mm}`;
+    }
+    setText('metaTime', 'Time: ' + (data.metaTime || nowHM()));
+
+    // Logo handling (hide if not set)
+    const logo = document.getElementById('logo');
+    if (data.logo) {
+      logo.src = data.logo;
+      logo.style.display = 'block';
+    } else {
+      logo.style.display = 'none';
+    }
   </script>
-
 </body>
 </html>
