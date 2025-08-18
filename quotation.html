@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Royal Automobiles – Quotation / Invoice</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
   <style>
     @page {
       size: A4 portrait;
@@ -115,36 +115,29 @@
     table.items td[contenteditable="true"] {
       background: #f9fafb;
     }
-    .actions {
-      margin-bottom: 16px;
-    }
-    .actions button {
-      padding: 6px 12px;
-      font-size: 12px;
-      cursor: pointer;
-      border: 1px solid #1E3A8A;
-      border-radius: 4px;
-      background: #1E3A8A;
-      color: #fff;
-      margin-right: 8px;
-    }
     .totals {
-      margin-top: 14px;
+      margin-top: 18px;
       text-align: right;
     }
     .totals div {
-      margin: 4px 0;
+      margin: 8px 0;
       font-size: 11pt;
     }
     .totals strong {
       color: #1E3A8A;
+    }
+    .totals .words {
+      font-family: 'Playfair Display', serif;
+      font-size: 12pt;
+      font-style: italic;
+      margin-top: 10px;
     }
     .bank {
       margin-top: 20px;
       font-size: 10pt;
       border-left: 3px solid #1E3A8A;
       padding-left: 10px;
-      line-height: 1.3;
+      line-height: 1.2;
     }
     .sign {
       margin-top: 40px;
@@ -163,6 +156,7 @@
       .toolbar { display: none; }
       body { background: #fff; }
       .invoice { box-shadow: none; border: none; }
+      .actions { display: none; }
     }
   </style>
 </head>
@@ -184,6 +178,10 @@
       <div>
         <label>Subject</label>
         <textarea id="inputSubject" rows="2" required></textarea>
+      </div>
+      <div>
+        <label>Discount (%)</label>
+        <input type="number" id="inputDiscount" value="5" />
       </div>
       <button type="submit">Generate</button>
       <button type="button" onclick="window.print()">🖨 Print</button>
@@ -213,11 +211,6 @@
     <div class="subject">
       <h3>Subject:</h3>
       <div id="subject">—</div>
-    </div>
-
-    <div class="actions">
-      <button type="button" onclick="addRow()">+ Add Item</button>
-      <button type="button" onclick="deleteRow()">- Delete Last Item</button>
     </div>
 
     <table class="items" id="itemsTable">
@@ -253,7 +246,7 @@
       <div>Discount: <span id="discount">0</span></div>
       <div><strong>Total: <span id="total">0</span></strong></div>
       <div>Balance Due: <span id="balanceDue">0</span></div>
-      <div>Total in Words: <span id="totalWords">—</span></div>
+      <div class="words">Total in Words: <span id="totalWords">—</span></div>
     </div>
 
     <div class="bank">
@@ -295,31 +288,14 @@
         row.cells[4].textContent = amount.toFixed(2);
         subtotal += amount;
       });
-      const discount = subtotal * 0.05; // 5% discount example
+      const discountPercent = parseFloat(document.getElementById('inputDiscount').value) || 0;
+      const discount = subtotal * (discountPercent/100);
       const total = subtotal - discount;
       document.getElementById('subTotal').textContent = subtotal.toFixed(2);
       document.getElementById('discount').textContent = discount.toFixed(2);
       document.getElementById('total').textContent = total.toFixed(2);
       document.getElementById('balanceDue').textContent = total.toFixed(2);
       document.getElementById('totalWords').textContent = numberToWords(total);
-    }
-
-    function addRow() {
-      const table = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
-      const rowCount = table.rows.length;
-      const row = table.insertRow();
-      row.innerHTML = `<td>${rowCount + 1}</td>
-        <td contenteditable="true">Description</td>
-        <td contenteditable="true">1</td>
-        <td contenteditable="true">0</td>
-        <td>0</td>`;
-    }
-
-    function deleteRow() {
-      const table = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
-      if(table.rows.length > 0) {
-        table.deleteRow(table.rows.length - 1);
-      }
     }
 
     function numberToWords(num) {
