@@ -97,6 +97,19 @@
       white-space: pre-line;
       font-size: 10.5pt;
     }
+    .actions {
+      margin: 10px 0;
+    }
+    .actions button {
+      padding: 6px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      border: 1px solid #1E3A8A;
+      border-radius: 4px;
+      background: #1E3A8A;
+      color: #fff;
+      margin-right: 8px;
+    }
     table.items {
       width: 100%;
       border-collapse: collapse;
@@ -120,7 +133,7 @@
       text-align: right;
     }
     .totals div {
-      margin: 8px 0;
+      margin: 10px 0;
       font-size: 11pt;
     }
     .totals strong {
@@ -130,7 +143,7 @@
       font-family: 'Playfair Display', serif;
       font-size: 12pt;
       font-style: italic;
-      margin-top: 10px;
+      margin-top: 12px;
     }
     .bank {
       margin-top: 20px;
@@ -154,9 +167,9 @@
     }
     @media print {
       .toolbar { display: none; }
+      .actions { display: none; }
       body { background: #fff; }
       .invoice { box-shadow: none; border: none; }
-      .actions { display: none; }
     }
   </style>
 </head>
@@ -211,6 +224,11 @@
     <div class="subject">
       <h3>Subject:</h3>
       <div id="subject">—</div>
+    </div>
+
+    <div class="actions">
+      <button type="button" onclick="addRow()">+ Add Item</button>
+      <button type="button" onclick="deleteRow()">- Delete Last Item</button>
     </div>
 
     <table class="items" id="itemsTable">
@@ -296,6 +314,24 @@
       document.getElementById('total').textContent = total.toFixed(2);
       document.getElementById('balanceDue').textContent = total.toFixed(2);
       document.getElementById('totalWords').textContent = numberToWords(total);
+    }
+
+    function addRow() {
+      const table = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
+      const rowCount = table.rows.length;
+      const row = table.insertRow();
+      row.innerHTML = `<td>${rowCount + 1}</td>
+        <td contenteditable="true">Description</td>
+        <td contenteditable="true">1</td>
+        <td contenteditable="true">0</td>
+        <td>0</td>`;
+    }
+
+    function deleteRow() {
+      const table = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
+      if(table.rows.length > 0) {
+        table.deleteRow(table.rows.length - 1);
+      }
     }
 
     function numberToWords(num) {
