@@ -12,9 +12,34 @@
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
+      background: #f9fafb;
+    }
+    .toolbar {
       background: #fff;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
+      border-bottom: 1px solid #ddd;
+      padding: 10px;
+    }
+    .toolbar form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: flex-end;
+    }
+    .toolbar label {
+      font-size: 12px;
+      display: block;
+    }
+    .toolbar input {
+      padding: 4px 6px;
+      font-size: 12px;
+    }
+    .toolbar button {
+      padding: 6px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      border: 1px solid #000;
+      border-radius: 4px;
+      background: #fff;
     }
     .sheet {
       width: 210mm;
@@ -22,6 +47,8 @@
       padding: 12mm;
       box-sizing: border-box;
       border: 1px solid #000;
+      background: #fff;
+      margin: 10px auto;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -80,28 +107,44 @@
       font-size: 10pt;
       text-align: center;
     }
-    .toolbar {
-      position: fixed;
-      top: 12px;
-      right: 12px;
-    }
-    .btn {
-      font-size: 13px;
-      padding: 6px 12px;
-      border: 1px solid #000;
-      border-radius: 6px;
-      background: #fff;
-      cursor: pointer;
-    }
     @media print {
       .toolbar { display: none; }
+      body { background: #fff; }
     }
   </style>
 </head>
 <body>
   <div class="toolbar">
-    <button class="btn" onclick="window.print()">🖨 Print</button>
+    <form id="gatepassForm">
+      <div>
+        <label>Customer Name</label>
+        <input type="text" id="inputCustomer" required />
+      </div>
+      <div>
+        <label>Vehicle Number</label>
+        <input type="text" id="inputVehicle" required />
+      </div>
+      <div>
+        <label>Driver Name</label>
+        <input type="text" id="inputDriver" required />
+      </div>
+      <div>
+        <label>Items</label>
+        <input type="text" id="inputItems" required />
+      </div>
+      <div>
+        <label>Delivery Date</label>
+        <input type="date" id="inputDate" required />
+      </div>
+      <div>
+        <label>Delivery Time</label>
+        <input type="time" id="inputTime" required />
+      </div>
+      <button type="submit">Generate</button>
+      <button type="button" onclick="window.print()">🖨 Print</button>
+    </form>
   </div>
+
   <section class="sheet">
     <header class="header">
       <div class="org">
@@ -112,12 +155,12 @@
 
     <main>
       <table>
-        <tr><td class="label">Customer Name</td><td id="customerName">Gopinath N</td></tr>
-        <tr><td class="label">Vehicle Number</td><td id="vehicleNumber">TN41AT6816</td></tr>
-        <tr><td class="label">Driver Name</td><td id="driverName">Gopinath N</td></tr>
-        <tr><td class="label">Items</td><td id="items">Vehicle Delivery</td></tr>
-        <tr><td class="label">Delivery Date</td><td id="deliveryDate">18-Aug-2025</td></tr>
-        <tr><td class="label">Delivery Time</td><td id="deliveryTime">17:30</td></tr>
+        <tr><td class="label">Customer Name</td><td id="customerName">—</td></tr>
+        <tr><td class="label">Vehicle Number</td><td id="vehicleNumber">—</td></tr>
+        <tr><td class="label">Driver Name</td><td id="driverName">—</td></tr>
+        <tr><td class="label">Items</td><td id="items">—</td></tr>
+        <tr><td class="label">Delivery Date</td><td id="deliveryDate">—</td></tr>
+        <tr><td class="label">Delivery Time</td><td id="deliveryTime">—</td></tr>
       </table>
 
       <div class="signatures">
@@ -131,14 +174,16 @@
   </section>
 
   <script>
-    const params = new URLSearchParams(location.search);
-    function setText(id, val) { if(document.getElementById(id)) document.getElementById(id).textContent = val; }
-    if(params.get('customer')) setText('customerName', params.get('customer'));
-    if(params.get('vehicle')) setText('vehicleNumber', params.get('vehicle'));
-    if(params.get('driver')) setText('driverName', params.get('driver'));
-    if(params.get('items')) setText('items', params.get('items'));
-    if(params.get('dDate')) setText('deliveryDate', params.get('dDate'));
-    if(params.get('dTime')) setText('deliveryTime', params.get('dTime'));
+    const form = document.getElementById('gatepassForm');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('customerName').textContent = document.getElementById('inputCustomer').value;
+      document.getElementById('vehicleNumber').textContent = document.getElementById('inputVehicle').value;
+      document.getElementById('driverName').textContent = document.getElementById('inputDriver').value;
+      document.getElementById('items').textContent = document.getElementById('inputItems').value;
+      document.getElementById('deliveryDate').textContent = document.getElementById('inputDate').value;
+      document.getElementById('deliveryTime').textContent = document.getElementById('inputTime').value;
+    });
   </script>
 </body>
 </html>
